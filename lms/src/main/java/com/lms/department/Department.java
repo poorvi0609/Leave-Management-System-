@@ -23,6 +23,9 @@ public class Department {
     @Column(nullable = false, unique = true)
     private String code;
 
+    @Column(name = "head_employee_id")
+    private Long headEmployeeId;
+
     @Column(nullable = false)
     private Boolean isActive = true;
 
