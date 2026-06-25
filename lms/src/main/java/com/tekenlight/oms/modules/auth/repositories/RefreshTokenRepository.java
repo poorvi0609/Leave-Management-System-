@@ -1,15 +1,16 @@
-package com.lms.auth;
+package com.tekenlight.oms.modules.auth.repositories;
 
+import com.tekenlight.oms.modules.auth.entities.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, String> {
 
     Optional<RefreshToken> findByToken(String token);
 
-    void deleteByEmployeeId(Long employeeId);
+    void deleteByUserId(String userId);
 
     void deleteByToken(String token);
 

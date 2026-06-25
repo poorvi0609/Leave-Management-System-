@@ -1,4 +1,4 @@
-package com.lms;
+package com.tekenlight.oms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
