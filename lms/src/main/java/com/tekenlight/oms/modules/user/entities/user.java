@@ -1,24 +1,19 @@
-package com.lms.employee;
+package com.tekenlight.oms.modules.user.entities;
 
-import com.lms.department.Department;
-import com.lms.designation.Designation;
+import com.tekenlight.oms.core.entities.BaseEntity;
+import com.tekenlight.oms.modules.organization.entities.Department;
+import com.tekenlight.oms.modules.organization.entities.Designation;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@SuperBuilder
+public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String firstName;
@@ -46,28 +41,20 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "reporting_manager_id")
-    private Employee reportingManager;
+    private User reportingManager;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EmployeeStatus status;
+    private UserStatus status;
 
     @Column(nullable = false)
     private LocalDate joiningDate;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
 
     public enum Role {
         EMPLOYEE, MANAGER, HR_ADMIN, SUPER_ADMIN
     }
 
-    public enum EmployeeStatus {
+    public enum UserStatus {
         ACTIVE, INACTIVE, ON_PROBATION
     }
 }

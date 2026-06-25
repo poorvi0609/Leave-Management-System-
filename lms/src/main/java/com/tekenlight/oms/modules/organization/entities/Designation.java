@@ -1,21 +1,17 @@
-package com.lms.designation;
+package com.tekenlight.oms.modules.organization.entities;
 
+import com.tekenlight.oms.core.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "designations")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Designation {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@SuperBuilder
+public class Designation extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -28,12 +24,4 @@ public class Designation {
 
     @Column(nullable = false)
     private Boolean isActive = true;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
 }

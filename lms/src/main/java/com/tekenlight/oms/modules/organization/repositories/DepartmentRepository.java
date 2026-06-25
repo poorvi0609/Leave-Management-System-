@@ -1,12 +1,13 @@
-package com.lms.department;
+package com.tekenlight.oms.modules.organization.repositories;
 
+import com.tekenlight.oms.modules.organization.entities.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DepartmentRepository extends JpaRepository<Department, Long> {
+public interface DepartmentRepository extends JpaRepository<Department, String> {
 
     Optional<Department> findByCode(String code);
 
@@ -14,5 +15,5 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     List<Department> findByIsActive(Boolean isActive);
 
-    boolean existsByHeadEmployeeId(Long employeeId);
+    boolean existsByHeadEmployeeId(String employeeId);
 }
