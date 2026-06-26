@@ -16,4 +16,6 @@ public interface DepartmentRepository extends JpaRepository<Department, String> 
     List<Department> findByIsActive(Boolean isActive);
 
     boolean existsByHeadEmployeeId(String employeeId);
+    boolean existsByCode(String code);
+    boolean existsByName(String name);
 }

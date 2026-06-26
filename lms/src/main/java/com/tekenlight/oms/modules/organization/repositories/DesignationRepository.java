@@ -18,4 +18,6 @@ public interface DesignationRepository extends JpaRepository<Designation, String
     List<Designation> findByGradeLevelOrderByGradeLevelAsc(Integer gradeLevel);
 
     boolean existsByGradeLevel(Integer gradeLevel);
+    boolean existsByCode(String code);
+    boolean existsByName(String name);
 }
