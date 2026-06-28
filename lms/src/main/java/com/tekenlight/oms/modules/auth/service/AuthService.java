@@ -63,5 +63,11 @@ public class AuthService {
             refreshToken.setIsRevoked(true);
             refreshTokenRepository.save(refreshToken);
         });
+
+    }
+
+    public User getMe(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
