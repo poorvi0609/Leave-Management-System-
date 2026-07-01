@@ -1,7 +1,7 @@
 package com.tekenlight.oms.core.entities;
 
-import lombok.experimental.SuperBuilder;
-import lombok.NoArgsConstructor;
+import com.tekenlight.oms.core.util.DateUtil;
+import com.tekenlight.oms.core.util.UUIDGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -11,14 +11,11 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @MappedSuperclass
 @Getter
 @Setter
 @ToString
-@SuperBuilder
-@NoArgsConstructor
 public class BaseEntity implements Serializable {
 
     @Id
@@ -57,10 +54,10 @@ public class BaseEntity implements Serializable {
     @PrePersist
     public void fillModel() {
         if (id == null || id.isBlank()) {
-            setId(UUID.randomUUID().toString());
+            setId(UUIDGenerator.getUUID());
         }
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = DateUtil.getCurrentTimeStamp();
 
         if (dbLock == null) setDbLock(now);
         if (createdAt == null) setCreatedAt(now);
@@ -75,7 +72,7 @@ public class BaseEntity implements Serializable {
 
     @PreUpdate
     public void fillModelBeforeUpdate() {
-        setUpdatedAt(LocalDateTime.now());
+        setUpdatedAt(DateUtil.getCurrentTimeStamp());
         setDelFlg(delFlg == null || delFlg.isBlank() ? "N" : delFlg);
         if (updatedBy == null || updatedBy.isBlank()) setUpdatedBy("System");
     }

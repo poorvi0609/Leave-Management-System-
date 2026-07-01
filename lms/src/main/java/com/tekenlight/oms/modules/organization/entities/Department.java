@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
 public class Department extends BaseEntity {
 
     @Column(nullable = false, unique = true)

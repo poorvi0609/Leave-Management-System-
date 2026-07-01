@@ -1,7 +1,6 @@
 package com.tekenlight.oms.modules.user.entities;
 
 import com.tekenlight.oms.core.entities.BaseEntity;
-import lombok.experimental.SuperBuilder;
 import com.tekenlight.oms.modules.organization.entities.Department;
 import com.tekenlight.oms.modules.organization.entities.Designation;
 import jakarta.persistence.*;
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
 public class User extends BaseEntity {
 
     @Column(nullable = false)
