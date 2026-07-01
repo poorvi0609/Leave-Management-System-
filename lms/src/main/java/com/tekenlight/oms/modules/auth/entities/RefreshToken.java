@@ -4,7 +4,6 @@ import com.tekenlight.oms.core.entities.BaseEntity;
 import com.tekenlight.oms.modules.user.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
 public class RefreshToken extends BaseEntity {
 
     @ManyToOne
