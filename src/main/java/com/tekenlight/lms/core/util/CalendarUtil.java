@@ -31,7 +31,6 @@ public class CalendarUtilityService {
                 .map(Holiday::getHolDate)
                 .collect(Collectors.toList());
 
-        return start.datesUntil(end.plusDays(1))
-                .filter(d ->!isWeekend(d)).filter(d ->!holidays.contains(d)).count();
+        return start.datesUntil(end.plusDays(1)).filter(d ->!isWeekend(d)).filter(d ->!holidays.contains(d)).count();
     }
 }
