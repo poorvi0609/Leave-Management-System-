@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local config - never commit
+lms/src/main/resources/application.yaml
