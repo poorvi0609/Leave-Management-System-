@@ -1,5 +1,7 @@
 package com.tekenlight.oms.modules.organization.service;
 
+import com.tekenlight.oms.modules.organization.dto.DepartmentRequestDto;
+import com.tekenlight.oms.modules.organization.dto.DepartmentResponseDto;
 import com.tekenlight.oms.modules.organization.entities.Department;
 import com.tekenlight.oms.modules.organization.repositories.DepartmentRepository;
 import com.tekenlight.oms.modules.user.repositories.UserRepository;
@@ -15,44 +17,66 @@ public class DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
 
-    public Department create(Department department) {
-        if (departmentRepository.existsByCode(department.getCode())) {
+    public DepartmentResponseDto create(DepartmentRequestDto dto) {
+        if (departmentRepository.existsByCode(dto.getCode())) {
             throw new RuntimeException("Department with this code already exists");
         }
-        if (departmentRepository.existsByName(department.getName())) {
+        if (departmentRepository.existsByName(dto.getName())) {
             throw new RuntimeException("Department with this name already exists");
         }
-        return departmentRepository.save(department);
+        Department department = new Department();
+        department.setName(dto.getName());
+        department.setCode(dto.getCode());
+        department.setIsActive(dto.getIsActive() != null ? dto.getIsActive() : true);
+        return toResponseDto(departmentRepository.save(department));
     }
 
-    public List<Department> getAll() {
-        return departmentRepository.findByIsActive(true);
+    public List<DepartmentResponseDto> getAll() {
+        return departmentRepository.findByIsActive(true)
+                .stream()
+                .map(this::toResponseDto)
+                .toList();
     }
 
-    public Department getById(String id) {
-        return departmentRepository.findById(id)
+    public DepartmentResponseDto getById(String id) {
+        return toResponseDto(departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found")));
+    }
+
+    public DepartmentResponseDto update(String id, DepartmentRequestDto dto) {
+        Department existing = departmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
-    }
-
-    public Department update(String id, Department updated) {
-        Department existing = getById(id);
-        existing.setName(updated.getName());
-        existing.setCode(updated.getCode());
-        return departmentRepository.save(existing);
+        existing.setName(dto.getName());
+        existing.setCode(dto.getCode());
+        return toResponseDto(departmentRepository.save(existing));
     }
 
     public void delete(String id) {
         if (userRepository.existsByDepartmentId(id)) {
             throw new RuntimeException("Cannot delete department with existing employees");
         }
-        Department department = getById(id);
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
         department.setIsActive(false);
         departmentRepository.save(department);
     }
 
-    public Department assignHead(String departmentId, String employeeId) {
-        Department department = getById(departmentId);
+    public DepartmentResponseDto assignHead(String departmentId, String employeeId) {
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
         department.setHeadEmployeeId(employeeId);
-        return departmentRepository.save(department);
+        return toResponseDto(departmentRepository.save(department));
+    }
+
+    private DepartmentResponseDto toResponseDto(Department department) {
+        DepartmentResponseDto dto = new DepartmentResponseDto();
+        dto.setId(department.getId());
+        dto.setName(department.getName());
+        dto.setCode(department.getCode());
+        dto.setHeadEmployeeId(department.getHeadEmployeeId());
+        dto.setIsActive(department.getIsActive());
+        dto.setCreatedAt(department.getCreatedAt());
+        dto.setUpdatedAt(department.getUpdatedAt());
+        return dto;
     }
 }
