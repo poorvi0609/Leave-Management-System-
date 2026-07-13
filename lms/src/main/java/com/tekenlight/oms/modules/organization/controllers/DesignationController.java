@@ -1,6 +1,7 @@
 package com.tekenlight.oms.modules.organization.controllers;
 
-import com.tekenlight.oms.modules.organization.entities.Designation;
+import com.tekenlight.oms.modules.organization.dto.DesignationRequestDto;
+import com.tekenlight.oms.modules.organization.dto.DesignationResponseDto;
 import com.tekenlight.oms.modules.organization.service.DesignationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +17,23 @@ public class DesignationController {
     private final DesignationService designationService;
 
     @PostMapping
-    public ResponseEntity<Designation> create(@RequestBody Designation designation) {
-        return ResponseEntity.ok(designationService.create(designation));
+    public ResponseEntity<DesignationResponseDto> create(@RequestBody DesignationRequestDto dto) {
+        return ResponseEntity.ok(designationService.create(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<Designation>> getAll() {
+    public ResponseEntity<List<DesignationResponseDto>> getAll() {
         return ResponseEntity.ok(designationService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Designation> getById(@PathVariable String id) {
+    public ResponseEntity<DesignationResponseDto> getById(@PathVariable String id) {
         return ResponseEntity.ok(designationService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Designation> update(@PathVariable String id, @RequestBody Designation designation) {
-        return ResponseEntity.ok(designationService.update(id, designation));
+    public ResponseEntity<DesignationResponseDto> update(@PathVariable String id, @RequestBody DesignationRequestDto dto) {
+        return ResponseEntity.ok(designationService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
@@ -40,4 +41,4 @@ public class DesignationController {
         designationService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+}
